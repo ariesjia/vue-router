@@ -2,6 +2,7 @@
 
 import { inBrowser } from './dom'
 import { saveScrollPosition } from './scroll'
+import { pushStack, replaceStack } from './stack'
 
 export const supportsPushState = inBrowser && (function () {
   const ua = window.navigator.userAgent
@@ -45,9 +46,11 @@ export function pushState (url?: string, replace?: boolean) {
   try {
     if (replace) {
       history.replaceState({ key: _key }, '', url)
+      replaceStack(_key, url)
     } else {
       _key = genKey()
       history.pushState({ key: _key }, '', url)
+      pushStack(_key, url)
     }
   } catch (e) {
     window.location[replace ? 'replace' : 'assign'](url)

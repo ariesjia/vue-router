@@ -8,6 +8,7 @@ import { cleanPath } from './util/path'
 import { createMatcher } from './create-matcher'
 import { normalizeLocation } from './util/location'
 import { supportsPushState } from './util/push-state'
+import { stack } from './util/stack'
 
 import { HashHistory } from './history/hash'
 import { HTML5History } from './history/html5'
@@ -40,6 +41,7 @@ export default class VueRouter {
     this.resolveHooks = []
     this.afterHooks = []
     this.matcher = createMatcher(options.routes || [], this)
+    this.stack = stack
 
     let mode = options.mode || 'hash'
     this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false
