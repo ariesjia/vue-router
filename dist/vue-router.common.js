@@ -1609,11 +1609,13 @@ var pushStack = function (key, url) {
 };
 
 var replaceStack = function (key, url) {
-  var index = stack.length ? stack.length - 1 : 0;
-  stack[index] = {
-    key: key,
-    url: url
-  };
+  var index = stack.length;
+  if (index > 1) {
+    stack[index] = {
+      key: key,
+      url: url
+    };
+  }
 };
 
 /*  */

@@ -17,9 +17,11 @@ export const pushStack = (key, url) => {
 }
 
 export const replaceStack = (key, url) => {
-  const index = stack.length ? stack.length - 1 : 0;
-  stack[index] = {
-    key,
-    url
+  const index = stack.length
+  if (index > 1) {
+    stack[index] = {
+      key,
+      url
+    }
   }
 }
