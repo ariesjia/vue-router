@@ -1596,9 +1596,10 @@ window.addEventListener('popstate', function (e) {
   if (e.state && e.state.key) {
     var index = stack.findIndex(function (item) { return item.key === e.state.key; });
     if (index >= 0) {
-      stack.splice(index + 1, stack.length);
+      return stack.splice(index + 1, stack.length)
     }
   }
+  stack.length = 0;
 });
 
 var pushStack = function (key, url) {
@@ -1611,7 +1612,7 @@ var pushStack = function (key, url) {
 var replaceStack = function (key, url) {
   var index = stack.length;
   if (index > 1) {
-    stack[index] = {
+    stack[index - 1] = {
       key: key,
       url: url
     };
