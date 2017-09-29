@@ -174,7 +174,8 @@ function parseQuery (query) {
   }
 
   query.split('&').forEach(function (param) {
-    var parts = param.replace(/\+/g, ' ').split('=');
+    // const parts = param.replace(/\+/g, ' ').split('=')
+    var parts = param.split('=');
     var key = decode(parts.shift());
     var val = parts.length > 0
       ? decode(parts.join('='))

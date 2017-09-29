@@ -45,7 +45,8 @@ function parseQuery (query: string): Dictionary<string> {
   }
 
   query.split('&').forEach(param => {
-    const parts = param.replace(/\+/g, ' ').split('=')
+    // const parts = param.replace(/\+/g, ' ').split('=')
+    const parts = param.split('=')
     const key = decode(parts.shift())
     const val = parts.length > 0
       ? decode(parts.join('='))
