@@ -43,24 +43,24 @@ location / {
 #### Node.js
 
 ```js
-const http = require("http")
-const fs = require("fs")
+const http = require('http')
+const fs = require('fs')
 const httpPort = 80
 
 http.createServer((req, res) => {
-  fs.readFile("index.htm", "utf-8", (err, content) => {
+  fs.readFile('index.htm', 'utf-8', (err, content) => {
     if (err) {
       console.log('Невозможно открыть файл "index.htm".')
     }
 
     res.writeHead(200, {
-      "Content-Type": "text/html; charset=utf-8"
+      'Content-Type': 'text/html; charset=utf-8'
     })
 
     res.end(content)
   })
 }).listen(httpPort, () => {
-  console.log("Сервер запущен на: http://localhost:%s", httpPort)
+  console.log('Сервер запущен на: http://localhost:%s', httpPort)
 })
 ```
 
@@ -69,6 +69,9 @@ http.createServer((req, res) => {
 При использовании Node.js/Express, мы рекомендуем пользоваться [connect-history-api-fallback middleware](https://github.com/bripkens/connect-history-api-fallback).
 
 #### Internet Information Services (IIS)
+
+1. Установить [IIS UrlRewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
+2. Создать файл `web.config` в корневом каталоге вашего сайта со следующим содержимым:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -82,17 +85,10 @@ http.createServer((req, res) => {
               <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
               <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
             </conditions>
-          <action type="Rewrite" url="index.html" />
+          <action type="Rewrite" url="/" />
         </rule>
       </rules>
     </rewrite>
-      <httpErrors>
-          <remove statusCode="404" subStatusCode="-1" />
-          <remove statusCode="500" subStatusCode="-1" />
-          <error statusCode="404" path="/survey/notfound" responseMode="ExecuteURL" />
-          <error statusCode="500" path="/survey/error" responseMode="ExecuteURL" />
-      </httpErrors>
-      <modules runAllManagedModulesForAllRequests="true"/>
   </system.webServer>
 </configuration>
 ```
@@ -103,6 +99,24 @@ http.createServer((req, res) => {
 rewrite {
     regexp .*
     to {path} /
+}
+```
+
+#### Хостинг Firebase
+
+Добавьте в файл `firebase.json`:
+
+```
+{
+  "hosting": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
 ```
 
